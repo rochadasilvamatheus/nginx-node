@@ -1,13 +1,14 @@
 services:
-
   nginx:
-      build:
-        context: ./nginx
-      container_name: nginx
-      networks:
-        - node-nginx-network
-      ports:
-        - "8080:80"
+    build:
+      context: ./nginx
+    container_name: nginx
+    networks:
+      - node-nginx-network
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
 
   app:
     build:
@@ -31,12 +32,12 @@ services:
     container_name: db
     restart: always
     tty: true
-    volumes: 
+    volumes:
       - ./mysql:/var/lib/mysql
-    environment: 
+    environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
-    networks: 
+    networks:
       - node-nginx-network
 
 networks:
